@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bruno Haraida — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f9f8f5;
+    --surface: #ffffff;
+    --text: #1a1a18;
+    --muted: #6b6b66;
+    --border: #e2e0d8;
+    --accent: #1a3a2a;
+    --accent-light: #e8f2ed;
+    --accent-mid: #2d6a4f;
+    --tag-bg: #eaf2ee;
+    --tag-text: #1a4a30;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.6; }
+
+  .hero {
+    padding: 80px 60px 60px;
+    border-bottom: 3px solid var(--accent);
+    display: flex; flex-direction: column; gap: 16px;
+    background: linear-gradient(135deg, #f9f8f5 60%, #e8f2ed 100%);
+    animation: fadeUp 0.7s ease both;
+  }
+  .hero-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-mid); }
+  .hero-name { font-family: 'DM Serif Display', serif; font-size: clamp(48px, 7vw, 80px); line-height: 1.05; color: var(--text); }
+  .hero-name em { font-style: italic; color: var(--accent); }
+  .hero-tagline { font-size: 17px; color: var(--muted); max-width: 540px; font-weight: 300; margin-top: 4px; }
+  .hero-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 100px;
+    font-size: 13px; color: var(--muted); text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .chip svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .main { display: grid; grid-template-columns: 1fr 1fr; }
+
+  .section { padding: 48px 60px; border-bottom: 1px solid var(--border); animation: fadeUp 0.7s ease both; }
+  .section:nth-child(odd) { border-right: 1px solid var(--border); }
+
+  .section-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent-mid);
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--accent-light); }
+
+  .project-card {
+    padding: 24px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 12px;
+    margin-bottom: 16px;
+    border-left: 3px solid var(--accent-mid);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .project-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,58,42,0.08); }
+  .project-title { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 10px; color: var(--text); }
+  .project-desc { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 14px; font-weight: 300; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .tag { padding: 3px 10px; background: var(--tag-bg); border-radius: 4px; font-size: 12px; font-weight: 500; color: var(--tag-text); }
+
+  .proj-links { display: flex; gap: 10px; }
+  .proj-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 16px; border-radius: 6px; font-size: 12px; font-weight: 500;
+    text-decoration: none; transition: all 0.2s; cursor: pointer;
+  }
+  .proj-btn-primary { background: var(--accent); color: #ffffff; border: 1px solid var(--accent); }
+  .proj-btn-primary:hover { background: var(--accent-mid); border-color: var(--accent-mid); }
+  .proj-btn-secondary { background: transparent; color: var(--accent-mid); border: 1px solid var(--accent-mid); }
+  .proj-btn-secondary:hover { background: var(--accent-light); }
+  .proj-btn svg { width: 13px; height: 13px; }
+
+  .skill-group { margin-bottom: 20px; }
+  .skill-group-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .skill-group-title::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-mid); flex-shrink: 0; }
+  .skill-list { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.7; padding-left: 14px; }
+
+  .activity-item { padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .activity-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; }
+
+  .edu-box {
+    padding: 24px; background: var(--accent-light);
+    border: 1px solid #c5ddd0; border-radius: 12px;
+    border-left: 3px solid var(--accent-mid);
+  }
+  .edu-name { font-size: 16px; font-weight: 500; color: var(--accent); }
+  .edu-degree { font-size: 14px; color: var(--accent-mid); font-weight: 300; margin-top: 4px; }
+  .edu-date { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+  .exp-item { margin-bottom: 28px; }
+  .exp-item:last-child { margin-bottom: 0; }
+  .exp-role { font-size: 15px; font-weight: 500; color: var(--text); }
+  .exp-company { font-size: 13px; color: var(--accent-mid); font-weight: 400; margin: 2px 0 6px; }
+  .exp-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.65; }
+
+  .footer {
+    grid-column: 1 / -1;
+    padding: 32px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; color: #ffffff;
+    background: var(--accent);
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+  .footer a { color: #a8d5be; text-decoration: none; }
+  .footer a:hover { color: #ffffff; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .full-width { grid-column: 1 / -1; border-right: none !important; }
+
+  @media (max-width: 700px) {
+    .main { grid-template-columns: 1fr; }
+    .section { padding: 36px 24px; border-right: none !important; }
+    .hero { padding: 48px 24px 40px; }
+    .footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
+    .proj-grid { grid-template-columns: 1fr !important; }
+    .exp-grid { grid-template-columns: 1fr !important; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <p class="hero-eyebrow">Portfolio</p>
+  <h1 class="hero-name">Bruno <em>Haraida</em></h1>
+  <p class="hero-tagline">Computer Information Systems student at UT Dallas — building Python &amp; C++ applications at the intersection of software and business.</p>
+  <div class="hero-links">
+    <a class="chip" href="mailto:brunoharaida@gmail.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+      brunoharaida@gmail.com
+    </a>
+    <a class="chip" href="https://www.linkedin.com/in/bruno-haraida-494726346" target="_blank">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>
+      LinkedIn
+    </a>
+    <span class="chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.18 6.18l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      210-907-3882
+    </span>
+    <span class="chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      New Braunfels, TX
+    </span>
+  </div>
+</section>
+
+<div class="main">
+
+  <!-- Projects -->
+  <section class="section full-width" style="animation-delay:0.1s">
+    <p class="section-label">Projects</p>
+    <div class="proj-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+
+      <div class="project-card">
+        <h2 class="project-title">Stock Alerting Website</h2>
+        <p class="project-desc">A full-stack web app that monitors real-time stock prices via the Finnhub API and sends automated email notifications when user-defined price thresholds are reached.</p>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">HTML</span>
+          <span class="tag">Finnhub API</span>
+          <span class="tag">Email Automation</span>
+        </div>
+        <div class="proj-links">
+          <a class="proj-btn proj-btn-primary" href="https://github.com/Brunokhar/PyCharm_stock_buzz" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            View Code
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <h2 class="project-title">Inventory Cost Calculator</h2>
+        <p class="project-desc">A C++ program that computes LIFO, FIFO, and Weighted Average inventory valuations from user input and generates a financial summary with improvement suggestions.</p>
+        <div class="tags">
+          <span class="tag">C++</span>
+          <span class="tag">OOP</span>
+          <span class="tag">Financial Logic</span>
+        </div>
+        <div class="proj-links">
+          <a class="proj-btn proj-btn-primary" href="https://github.com/Brunokhar/Accounting_cost_calculator" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            View Code
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Skills & Certs -->
+  <section class="section" style="animation-delay:0.15s">
+    <p class="section-label">Skills &amp; Certifications</p>
+    <div class="skill-group">
+      <p class="skill-group-title">Programming</p>
+      <p class="skill-list">C++, Python — OOP, pointers, classes</p>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-title">Python Bootcamp</p>
+      <p class="skill-list">Automation, web development, game development (certificate in progress)</p>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-title">SQL</p>
+      <p class="skill-list">Querying, joins, data manipulation</p>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-title">Certifications</p>
+      <p class="skill-list">IBM SkillsBuild — Project Management Lifecycle<br>SAP Analytical Cloud — Core analytics &amp; platform navigation</p>
+    </div>
+  </section>
+
+  <!-- Leadership -->
+  <section class="section" style="animation-delay:0.2s">
+    <p class="section-label">Leadership &amp; Activities</p>
+    <div class="activity-item">
+      <p class="activity-title">CISTECH × IBM Case Competition</p>
+      <p class="activity-desc">Collaborated in a 4-member team to propose an agentic AI implementation for everyday business challenges.</p>
+    </div>
+    <div class="activity-item">
+      <p class="activity-title">AWS Agentic AI Hackathon</p>
+      <p class="activity-desc">Explored agentic AI on AWS, gaining hands-on experience with cloud-based AI architecture and agent design.</p>
+    </div>
+    <div class="activity-item">
+      <p class="activity-title">Social Impact &amp; Sustainable Community Engagement</p>
+      <p class="activity-desc">Collaborating with global nonprofits to develop sustainable solutions aligned with the UN SDGs.</p>
+    </div>
+    <div class="activity-item">
+      <p class="activity-title">Volunteer Work</p>
+      <p class="activity-desc">70+ hours of community service at food banks, churches, and local events.</p>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section class="section" style="animation-delay:0.25s">
+    <p class="section-label">Education</p>
+    <div class="edu-box">
+      <p class="edu-name">The University of Texas at Dallas</p>
+      <p class="edu-degree">B.S., Computer Information Systems</p>
+      <p class="edu-date">Richardson, TX · Expected May 2028</p>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section class="section full-width" style="animation-delay:0.3s;border-bottom:none">
+    <p class="section-label">Experience</p>
+    <div class="exp-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+      <div class="exp-item">
+        <p class="exp-role">Team Member</p>
+        <p class="exp-company">Boba Shop · Feb 2024 – Aug 2024</p>
+        <p class="exp-desc">Operated POS system, managed phone orders, and handled customer interactions — contributing to a 50% faster checkout process. Responsible for nightly closing including cash balancing and inventory checks.</p>
+      </div>
+      <div class="exp-item">
+        <p class="exp-role">Team Member</p>
+        <p class="exp-company">Whataburger · Aug 2023 – Jan 2024</p>
+        <p class="exp-desc">Served 100+ customers per shift with speed and accuracy, cutting wait times by 15%. Trained for multiple roles and regularly worked two positions during peak hours.</p>
+      </div>
+      <div class="exp-item">
+        <p class="exp-role">Assistant Coach</p>
+        <p class="exp-company">John Newcombe Tennis Academy · Nov 2021 – May 2022</p>
+        <p class="exp-desc">Coached and mentored 30+ high school players in fundamentals and advanced drills. Led youth and adult camps achieving a 95% positive feedback rate.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>Bruno Haraida · CIS Student, UT Dallas</span>
+    <a href="mailto:brunoharaida@gmail.com">brunoharaida@gmail.com</a>
+    <span>US work authorized · No restrictions</span>
+  </footer>
+
+</div>
+</body>
+</html>
